@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatgpt web</title>
+</head>
+
+<body>
+    <style>
+        .red{
+            color: red;
+        }
+        .blue{
+            color: blue;
+        }
+    </style>
+    <div>
+        <h1>Chatgpt</h1>
+    </div>
+    <div>
+        <input>
+        </input>
+        <button>发送</button>
+    </div>
+    <script>
+        const div = document.querySelector("div")
+        const input = document.querySelector("input")
+        const button = document.querySelector('button')
+
+        button.addEventListener("click", () => {
+            div.innerHTML += `<p class="red">我: ${input.value}</p>`
+
+            fetch("https://chatgpt-web-production-634c.up.railway.app/api/chat", {
+                method: 'POST', headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ prompt: input.value, options: {} }),
+            })
+                .then(res => res.json())
+                .then(data => {
+                    div.innerHTML += `<p class="blue">ChatGpt: ${data.data.text}</p>`
+                })
+
+            input.value = ""
+        })
+    </script>
+</body>
+
+</html>
